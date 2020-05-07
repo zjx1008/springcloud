@@ -33,4 +33,8 @@ public class OpenFeignController {
     public String paymentFeignTimeOut(){
         return paymentService.paymentFeignTimeOut();
     }
+
+
+
+
 }
