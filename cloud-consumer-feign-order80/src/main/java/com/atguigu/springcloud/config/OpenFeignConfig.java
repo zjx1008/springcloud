@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author zjx
  * @create 2020-05-07-17:31
+ *
+ * 设置日志增强
  */
 
 @Configuration
