@@ -1,0 +1,16 @@
+server:
+  port: 8001
+
+
+eureka:
+  client:
+    register-with-eureka: true
+      # 是否允许自己抓取注册信息
+    fetch-registry: true
+    # eureka 的注册地址
+    service-url:
+    # 默认地址是这个
+      defaultZone: http://localhost:7001/eureka/
+spring:
+  application:
+    name: cloud-provider-hystrix-payment
