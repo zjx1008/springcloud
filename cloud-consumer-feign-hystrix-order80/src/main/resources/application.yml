@@ -11,3 +11,12 @@ eureka:
 spring:
   application:
     name: cloud-consumer-feign-hyxtrix-order80
+
+feign:
+  hystrix:
+    enabled: true
+
+ribbon:
+  ReadTimeout: 5000     #不知道为啥 这俩属性点不出来 一直报黄，但是可以正常使用
+  ConnectTimeout: 5000
+
