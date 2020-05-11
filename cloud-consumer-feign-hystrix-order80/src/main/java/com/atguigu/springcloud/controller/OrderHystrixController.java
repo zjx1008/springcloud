@@ -1,6 +1,7 @@
 package com.atguigu.springcloud.controller;
 
 import com.atguigu.springcloud.service.PaymentHystrixService;
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
+@DefaultProperties(defaultFallback = "globalFallBack")
 public class OrderHystrixController {
 
 
     @Autowired
-    private PaymentHystrixService orderService;
+    private PaymentHystrixService paymentHystrixService;
 
     @GetMapping("consumer/payment/hystrix/ok/{id}")
     public String Payment_OK(@PathVariable("id") Integer id){
-        return orderService.Payment_OK(id);
+
+
+        return paymentHystrixService.Payment_OK(id);
     }
 
 
@@ -30,8 +34,11 @@ public class OrderHystrixController {
 //    @HystrixCommand(fallbackMethod = "PaymentTimeOutFallBackMethod",commandProperties = {
 //            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",value ="3000" )
 //    })
+
+    @HystrixCommand
     public String Payment_TimeOut(@PathVariable("id") Integer id){
-        return orderService.Payment_TimeOut(id);
+
+        return paymentHystrixService.Payment_TimeOut(id);
     }
 
 
@@ -40,5 +47,10 @@ public class OrderHystrixController {
 
     }
 
+    public String globalFallBack (){
+
+
+        return "globalfallBack ";
+    }
 
 }
