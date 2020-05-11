@@ -28,11 +28,21 @@ public class controller {
         log.info(paymentOk);
         return paymentOk;
     }
+
     @GetMapping("/payment/hystrix/timeout/{id}")
     public String Payment_TimeOut(@PathVariable("id") Integer id) {
         String paymentTimeOut = paymentService.Payment_TimeOut(id);
         log.info(paymentTimeOut);
         return paymentTimeOut;
+    }
+
+
+    @GetMapping("/payment/circuitbreak/{id}")
+    public String paymentCircuitBreaker(@PathVariable("id") Integer id) {
+        String paymentCircuitBreaker = paymentService.paymentCircuitBreaker(id);
+        return paymentCircuitBreaker;
+
+
     }
 
 }

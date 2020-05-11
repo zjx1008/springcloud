@@ -1,10 +1,12 @@
 package com.atguigu.springcloud.service;
 
 import ch.qos.logback.core.util.TimeUtil;
+import cn.hutool.core.util.IdUtil;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import io.micrometer.core.instrument.util.TimeUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.concurrent.TimeUnit;
 
@@ -18,7 +20,7 @@ public class PaymentService {
 
     public String Payment_OK(Integer id) {
 
-        return "当前线程" + Thread.currentThread().getName() + "Payment_OK,id\t"+id+"启动成功 哈哈";
+        return "当前线程" + Thread.currentThread().getName() + "Payment_OK,id\t" + id + "启动成功 哈哈";
     }
 
 
@@ -31,12 +33,12 @@ public class PaymentService {
      *
      *
      */
-    @HystrixCommand(fallbackMethod = "Payment_TimeOutHandler",commandProperties = {
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",value ="3000" )
+    @HystrixCommand(fallbackMethod = "Payment_TimeOutHandler", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "3000")
     })
     public String Payment_TimeOut(Integer id) {
-        int result =10/0;
-        int time = 5;
+//        int a =10/0;
+        int time = 0;
         try {
             TimeUnit.SECONDS.sleep(time);
         } catch (InterruptedException e) {
@@ -46,9 +48,34 @@ public class PaymentService {
 
     }
 
-    public String Payment_TimeOutHandler(Integer id){
+    public String Payment_TimeOutHandler(Integer id) {
+        return "当前线程" + Thread.currentThread().getName() + "Payment_TimeOut方法异常，请稍后再试,id=" + id + "\t ( ▼-▼ )";
+    }
 
 
-        return  "当前线程"+Thread.currentThread().getName()+"Payment_TimeOut方法异常，请稍后再试,id="+id+"\t ( ▼-▼ )";
+    //---------------------------------服务熔断操作--------------------------------------
+
+
+
+    @HystrixCommand(fallbackMethod = "paymentCircuitBreaker_fallBack",
+    commandProperties = {
+            @HystrixProperty(name="circuitBreaker.enabled",value = "true"),//开启熔断器
+            @HystrixProperty(name="circuitBreaker.requestVolumeThreshold",value = "10"),//访问次数
+            @HystrixProperty(name="circuitBreaker.sleepWindowInMilliseconds",value = "10000"),//时间窗口期
+            @HystrixProperty(name="circuitBreaker.errorThresholdPercentage",value = "60"),//失败率达到多少后跳闸
+
+    })
+    public String paymentCircuitBreaker(@PathVariable("id") Integer id) {
+        if (id < 0) {
+           throw  new RuntimeException("id 不能是负数");
+
+        }
+        String serNum = IdUtil.simpleUUID();
+        return Thread.currentThread().getName() + "\t 调用成功 id:" + id + "流水号是" + serNum;
+    }
+
+    public String paymentCircuitBreaker_fallBack(Integer id) {
+        return "id 不能是负数 ( ▼-▼ )  id"+id;
+
     }
 }
