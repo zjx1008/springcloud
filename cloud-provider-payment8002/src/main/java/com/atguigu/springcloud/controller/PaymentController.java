@@ -38,7 +38,7 @@ public class PaymentController {
 
 
 
-    @GetMapping("/payment/{Id}")
+    @GetMapping("/payment/get/{Id}")
     public CommonResult getById(@PathVariable("Id") Long id) {
         Payment payment = paymentService.getById(id);
         log.info("********查询结果" + payment);
@@ -47,5 +47,12 @@ public class PaymentController {
         } else {
             return new CommonResult(444, "没有对应记录Id为" + id + "的数据", null);
         }
+    }
+
+
+    @GetMapping("/payment/lb")
+    public String getPort(){
+
+        return port;
     }
 }
