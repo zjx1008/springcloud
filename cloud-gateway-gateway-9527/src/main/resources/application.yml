@@ -7,19 +7,31 @@ spring:
     name: cloud-gateway-service
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true   #  表示在注册中心动态获取微服务路由功能，利用微服务名称进行路由，此时uri地址 应该改为lb: + 微服务名称
       routes:
         - id: payment_routh1  # 路由器id，没有固定规则 但要求唯一 ，建议配合服务名
-          uri: http://localhost:8001  #匹配后提供的服务路由器地址
+         # uri: http://localhost:8001  #匹配后提供的服务路由器地址
+          uri: lb://CLOUD-PAYMENT-SERVICE  #动态去注册中心获取名称，匹配后提供路由地址
           predicates:                #断言，路径相匹配进行路由
             - Path=/payment/get/**
-
-
+#            - After=2020-05-12T16:37:19.373+08:00[Asia/Shanghai]
+#            - Before=2020-05-12T16:37:19.373+08:00[Asia/Shanghai]
+#            - Between2020-05-12T16:37:19.373+08:00[Asia/Shanghai],2020-05-12T16:37:19.373+08:00[Asia/Shanghai]
+#            - Cookie=username,zhangsan
+#            - Header=
+#            - Host=**atguigu.com
+#            - Method=POST,GET
+#            - Query=username=zhangsan
 
 
         - id: payment_routh2
-          uri: http://localhost:8001
+          #uri: http://localhost:8001
+          uri: lb://CLOUD-PAYMENT-SERVICE
           predicates:
               - Path=/payment/lb/**
+
 
 
 
