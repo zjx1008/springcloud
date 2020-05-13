@@ -9,7 +9,7 @@ spring:
         git:
  #         uri: https://github.com/zzyybs/springcloud-config.git
           uri: https://github.com/zjx1008/springcloud-config.git
-#          uri: git@github.com:zjx1008/springcloud-config.git
+#          uri: git@github.com:zjx1008/springcloud-config.git  ###  有一个问题 就是 看视频的时候周阳老师可以使用这种git@github方式，但是我使用的时候就会提示权限错误，然后改成上边http方式就可以用 啊  怪哉啊
           search-paths:
             - springcloud-config
       label: master
