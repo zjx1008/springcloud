@@ -1,0 +1,24 @@
+server:
+  port: 3355
+
+spring:
+  application:
+    name: cloud-config-client
+  cloud:
+    config:
+        profile: dev        #配置文件的后缀名称
+        label:  master      #配置文件在git 上的分支
+        name: config        #配置文件名称
+        uri: http://localhost:3344  #  需要访问的地址
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
