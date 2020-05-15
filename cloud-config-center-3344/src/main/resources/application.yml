@@ -23,4 +23,17 @@ eureka:
 
 
 
+# 配置MQ
+rabbitmq:
+  host: localhost
+  port: 5672
+  username: guest
+  password: guest
 
+
+## rabbitmq  相关配置，暴露bus刷新配置的端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'bus-refresh'
