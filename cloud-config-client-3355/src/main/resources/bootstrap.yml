@@ -17,6 +17,15 @@ eureka:
     service-url:
       defaultZone: http://localhost:7001/eureka
 
+# 配置MQ
+rabbitmq:
+  host: localhost
+  port: 5672
+  username: guest
+  password: guest
+
+
+
 
 # 暴露监控端点
 management:
