@@ -1,0 +1,16 @@
+server:
+  port: 83
+
+spring:
+  application:
+    name: cloudalibaba-consumer-payment
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
