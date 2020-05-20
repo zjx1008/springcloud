@@ -11,6 +11,9 @@ spring:
       config:
         server-addr: localhost:8848 #配置中心地址
         file-extension: yaml #指定yaml格式的配置
+        group: DEV_GROUP  #  添加分组 用来读取 相同平成 不同分组的文件
+        namespace: 9c3488d8-7537-49b6-80b7-90ac845f0cb6 # 用来区分不同的命名空间
+
 
 
 
